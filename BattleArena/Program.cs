@@ -13,9 +13,9 @@ namespace BattleArena
         static void Main(string[] args)
         {
             int round = 1;
-            Warrior Raymond = new Warrior("Raymond", 100, 30, "Dinuraan");
-            Warrior Kirk = new Warrior("Kirk", 200, 15, "Dinaganan");
-            Warrior Sammer = new Warrior("Sammer", 180, 25, "Ice Shard");
+            var Raymond = new Marksman("Raymond", 100, 30);
+            var Kirk = new Fighter("Kirk", 200, 15);
+            var Sammer = new Tank("Sammer", 150, 30);
 
             Raymond.DisplayStats();
             Kirk.DisplayStats();
@@ -23,11 +23,11 @@ namespace BattleArena
 
             while (Raymond.IsAlive && Kirk.IsAlive && Sammer.IsAlive)
             {
-                Console.WriteLine($"------Round {round}------");
+
                 Raymond.Attack(Kirk);
-                Kirk.Attack(Sammer);
+                Console.WriteLine("----------------------------------------------");
                 Sammer.Attack(Raymond);
-                Console.WriteLine("----------------");
+                Console.WriteLine("----------------------------------------------");
                 round++;
             }
 
