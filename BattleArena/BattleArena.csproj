@@ -45,9 +45,11 @@
   <ItemGroup>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Warriors\Figther.cs" />
-    <Compile Include="Warriors\Marksman.cs" />
-    <Compile Include="Warriors\Tank.cs" />
+    <Compile Include="Warriors\Characters\Agoot.cs" />
+    <Compile Include="Warriors\Characters\Raymond.cs" />
+    <Compile Include="Warriors\Characters\Cods.cs" />
+    <Compile Include="Warriors\Characters\Kirk.cs" />
+    <Compile Include="Warriors\DamageInfo.cs" />
     <Compile Include="Warriors\Warrior.cs" />
   </ItemGroup>
   <ItemGroup>
