@@ -13,8 +13,8 @@ namespace BattleArena.Warriors.Characters
     public class Cods    : Warrior, IHealCaster
     {
         public int HealingAmount { get; set; }
-        public Cods(int health, int attackPower, TeamType teamType, int healingAmount)
-            : base("Cods", health, attackPower, WarriorType.Magery, teamType)
+        public Cods(int health, int attackPower, int speed, int healingAmount, TeamType teamType)
+            : base("Cods", health, attackPower, speed, WarriorType.Magery, teamType)
         {
             HealingAmount = healingAmount;
         }

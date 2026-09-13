@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BattleArena.Combat.DamageInfo
+namespace BattleArena.Combat
 {
     public struct DamageInfo
     {
@@ -27,7 +27,5 @@ namespace BattleArena.Combat.DamageInfo
             TotalAmountDamage = isCritical ? actualAmountDamage * 2 : actualAmountDamage;
             From = from;
         }
-
-       
     }
 }

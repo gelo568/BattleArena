@@ -13,8 +13,8 @@ namespace BattleArena.Warriors.Characters
     public class Agoot : Warrior, IHealCaster
     {
         public int HealingAmount { get; set; }
-        public Agoot(int health, int attackPower, TeamType teamType, int healingAmount)
-            : base("Agoot", health, attackPower, WarriorType.Magery, teamType)
+        public Agoot(int health, int attackPower, int speed, int healingAmount, TeamType teamType)
+            : base("Agoot", health, attackPower, speed, WarriorType.Magery, teamType)
         {
             HealingAmount = healingAmount;
         }

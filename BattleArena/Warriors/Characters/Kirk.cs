@@ -4,14 +4,14 @@ using BattleArena.Enums;
 using System;
 using System.Threading;
 
-namespace BattleArena.Warriors.Kir
+namespace BattleArena.Warriors.Characters
 {
     public class Kirk : Warrior, IDefender
     {
         public int Shield { get; private set; }
 
-        public Kirk(int health, int attackPower, int shield, TeamType teamType)
-            : base("Kirk", health, attackPower, WarriorType.Tank, teamType)
+        public Kirk(int health, int attackPower, int speed, int shield, TeamType teamType)
+            : base("Kirk", health, attackPower, speed, WarriorType.Tank, teamType)
         {
             Shield = shield;
         }

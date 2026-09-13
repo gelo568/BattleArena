@@ -2,60 +2,87 @@
 using BattleArena.Combat;
 using BattleArena.Enums;
 using System;
-using System.Threading;
 
 namespace BattleArena.Warriors
 {
-    public class Kirk : Warrior, IDefender
+    public abstract class Warrior : IHealable
     {
-        public int Shield  { get; private set; }
+        private bool _isAlive;
+        private bool _hasCriticalChance;
 
-        public Kirk(int health, int attackPower, int shield, TeamType teamType) 
-            : base("Kirk", health, attackPower, WarriorType.Tank, teamType)
+        protected DamageInfo _damageTaken;
+        protected Random _random = new Random();
+
+        public string Name { get; private set; }
+        public int Health { get; private set; }
+        public int AttackPower { get; private set; }
+        public int Speed { get; private set; }
+
+        public WarriorType WarriorType { get; private set; }
+        public TeamType TeamType { get; private set; }
+
+
+        public bool IsAlive
         {
-            Shield = shield;
-        }
-
-        public override void Attack(Warrior target)
-        {
-            var dmginfo = new DamageInfo(AttackPower, "Ngalngal", HasCriticalChance, this);
-            TakeDamage(dmginfo);
-
-            Console.WriteLine($"->{Name}: Lasapin mo yakap ko {target.Name}!");
-
-            Thread.Sleep(1000);
-            Console.WriteLine($"->{target.Name}: Hug me tight {Name}!");
-
-            Thread.Sleep(1000);
-            if (target.IsAlive)
-                Console.WriteLine($"->{target.Name}: Kulang pa sa hug bebe {Name}");
-        }
-
-        protected override void TakeDamage(DamageInfo damage)
-        {
-            var newActualDamage = damage.TotalAmountDamage - Shield;
-
-            var blockChance = _random.Next(0, 100);
-            var isBlocked =  blockChance < 50;
-            _damageTaken = damage;
-
-            if (isBlocked) Block();
-            else
+            get
             {
-                var newDmginfo = new DamageInfo(newActualDamage, damage.AttackType, damage.IsCritical, damage.From);
-                base.TakeDamage(newDmginfo);
+                _isAlive = Health > 0;
+                return _isAlive;
+            }
+            private set { _isAlive = value; }
+        }
+
+        public bool HasCriticalChance
+        {
+            get
+            {
+                var chance = _random.Next(0, 100);
+                _hasCriticalChance = chance < 30;
+                return _hasCriticalChance;
+            }
+            private set { _hasCriticalChance = value; }
+        }
+
+        IHealCaster IHealable.TeamType => throw new NotImplementedException();
+
+        public Warrior(string name, int health, int attackPower, int speed, WarriorType warriorType, TeamType teamType)
+        {
+            Name = name;
+            Health = health;
+            AttackPower = attackPower;
+            Speed = speed;
+            WarriorType = warriorType;
+            TeamType = teamType;
+        }
+
+        protected virtual void TakeDamage(DamageInfo damage)
+        {
+            _damageTaken = damage;
+            Health -= damage.TotalAmountDamage;
+            if (Health < 0) Health = 0;
+        }
+
+        public virtual void DisplayStatus()
+        {
+            Console.WriteLine($"---== {Name} ==---");
+
+            if (_damageTaken.IsCritical)
+                Console.WriteLine($"---- Critical Hit ----");
+
+            Console.WriteLine($"[*] Health: {Health}");
+            Console.WriteLine($"[*] Attack Power: {AttackPower}");
+            Console.WriteLine($"[*] Damage Taken: {_damageTaken.TotalAmountDamage}");
+        }
+
+        public abstract void Attack(Warrior target);
+
+        public void ReceiveHealing(int amount, Warrior healer)
+        {
+            if (healer.TeamType == TeamType)
+            {
+                Health += amount;
+                Console.WriteLine($"->{Name}: Received healing from {healer.Name}! Health is now {Health}");
             }
         }
-
-        private void Block()
-        {
-            throw new NotImplementedException();
-        }
-
-        void IDefender.Block()
-        {
-            throw new NotImplementedException();
-        }
     }
-
 }
