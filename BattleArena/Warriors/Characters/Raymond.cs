@@ -1,39 +1,31 @@
-﻿using BattleArena.Warriors.Characters;
+﻿using BattleArena.Warriors;
 using System;
-using System.Threading;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace BattleArena.Warriors
+namespace BattleArena.Combat.Info
 {
-    public class Raymond : Warrior
+    public struct DamageInfo
     {
-        private bool _hasCriticalChance;
+        public int TotalAmountDamage { get; private set; }
+        public int ActualAmountDamage { get; private set; }
+        public string AttackType { get; private set; }
+        public bool IsCritical { get; private set; }
+        public Warrior From { get; private set; }
 
-        public int SibatDamage { get; private set; }
-        public Raymond(int health, int attackPower, int arrowDamage)
-            : base("Raymond", health, attackPower, WarriorType.Marksman)
+        public DamageInfo(
+            int actualAmountDamage,
+            string attackType,
+            bool isCritical,
+            Warrior from)
         {
-            SibatDamage = arrowDamage;
-            attackPower += SibatDamage;
-        }
-
-
-        public override void Attack(Warrior target)
-        {
-
-            var dmginfo = new DamageInfo(AttackPower, "Sibat", _hasCriticalChance);
-            TakeDamage(dmginfo);
-
-
-            Thread.Sleep(1000);
-            Console.WriteLine($"\t-> {Name}: Ano ka Boi! {target.Name}!");
-
-            Thread.Sleep(1000);
-            Console.WriteLine($"\t-> {target.Name}: Takas kapa!");
-
-            Thread.Sleep(1000);
-            if (target.IsAlive)
-                Console.WriteLine($"\t-> {target.Name}: Punit ako! {target.Name}");
-
+            ActualAmountDamage = actualAmountDamage;
+            AttackType = attackType;
+            IsCritical = isCritical;
+            TotalAmountDamage = isCritical ? actualAmountDamage * 2 : actualAmountDamage;
+            From = from;
         }
     }
 }

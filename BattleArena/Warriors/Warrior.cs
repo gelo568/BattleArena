@@ -1,83 +1,61 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BattleArena.Abilities;
+using BattleArena.Combat;
+using BattleArena.Enums;
+using System;
+using System.Threading;
 
 namespace BattleArena.Warriors
 {
-    public enum WarriorType
+    public class Kirk : Warrior, IDefender
     {
-        Fighter,
-        Marksman,
-        Tank,
-        Magery,
-    }
+        public int Shield  { get; private set; }
 
-    public abstract class Warrior
-    {
-        private bool _isAlive;
-        public bool _hasCriticalChance;
-
-
-        protected DamageInfo _damageTaken;
-
-        private Random _random = new Random();
-        public string Name { get; private set; }
-        public int Health { get; private set; }
-        public int AttackPower { get; private set; }
-        public WarriorType WarriorType { get; private set; }
-
-
-        public bool IsAlive
+        public Kirk(int health, int attackPower, int shield, TeamType teamType) 
+            : base("Kirk", health, attackPower, WarriorType.Tank, teamType)
         {
-            get
-            {
-                _isAlive = Health > 0;
-                return _isAlive;
-            }
-            private set { _isAlive = value; }
-
+            Shield = shield;
         }
 
-        public bool HasCriticalChance
+        public override void Attack(Warrior target)
         {
-            get
-            {
-                var chance = _random.Next(0, 100);
-                _hasCriticalChance = chance > 30;
-                return _hasCriticalChance;
-            }
-            private set { _hasCriticalChance = value; }
+            var dmginfo = new DamageInfo(AttackPower, "Ngalngal", HasCriticalChance, this);
+            TakeDamage(dmginfo);
+
+            Console.WriteLine($"->{Name}: Lasapin mo yakap ko {target.Name}!");
+
+            Thread.Sleep(1000);
+            Console.WriteLine($"->{target.Name}: Hug me tight {Name}!");
+
+            Thread.Sleep(1000);
+            if (target.IsAlive)
+                Console.WriteLine($"->{target.Name}: Kulang pa sa hug bebe {Name}");
         }
 
-        public Warrior(string name, int health, int attackPower, WarriorType warriorType)
+        protected override void TakeDamage(DamageInfo damage)
         {
-            Name = name;
-            Health = health;
-            AttackPower = attackPower;
-            WarriorType = warriorType;
-        }
+            var newActualDamage = damage.TotalAmountDamage - Shield;
 
-        protected virtual void TakeDamage(DamageInfo damage)
-        {
+            var blockChance = _random.Next(0, 100);
+            var isBlocked =  blockChance < 50;
             _damageTaken = damage;
-            Health -= damage.TotalAmountDamage;
-            if (Health < 0) Health = 0;
+
+            if (isBlocked) Block();
+            else
+            {
+                var newDmginfo = new DamageInfo(newActualDamage, damage.AttackType, damage.IsCritical, damage.From);
+                base.TakeDamage(newDmginfo);
+            }
         }
 
-        public virtual void DisplayStatus()
+        private void Block()
         {
-            Console.WriteLine($"\t---=={Name}---==");
-
-            if (_damageTaken.IsCritical)
-                Console.WriteLine($"\t---- Critical Hit ----");
-
-            Console.WriteLine($"\t[*] Health: {Health}");
-            Console.WriteLine($"\t[*] Attack Power: {AttackPower}");
-            Console.WriteLine($"\t[*] Damage Taken: {_damageTaken.TotalAmountDamage}");
+            throw new NotImplementedException();
         }
-        public abstract void Attack(Warrior target);
 
+        void IDefender.Block()
+        {
+            throw new NotImplementedException();
+        }
     }
+
 }

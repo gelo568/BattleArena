@@ -43,17 +43,25 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Abilities\IDefender.cs" />
+    <Compile Include="Abilities\Ihealable.cs" />
+    <Compile Include="Abilities\ISpellCaster.cs" />
+    <Compile Include="Abilities\IHealCaster.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Warriors\Characters\Agoot.cs" />
+    <Compile Include="Warriors\Combat\IDamageInfo.cs" />
+    <Compile Include="Warriors\Enums\TeamType.cs" />
+    <Compile Include="Warriors\Enums\WarriorType.cs" />
     <Compile Include="Warriors\Characters\Raymond.cs" />
     <Compile Include="Warriors\Characters\Cods.cs" />
     <Compile Include="Warriors\Characters\Kirk.cs" />
-    <Compile Include="Warriors\DamageInfo.cs" />
+    <Compile Include="Warriors\Combat\DamageInfo.cs" />
     <Compile Include="Warriors\Warrior.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,42 +1,49 @@
-﻿using BattleArena.Warriors.Characters;
+﻿using BattleArena.Abilities;
+using BattleArena.Combat;
+using BattleArena.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Threading.Tasks;
 
-namespace BattleArena.Warriors
+namespace BattleArena.Warriors.Characters
 {
-    public class Cods : Warrior
+    public class Cods    : Warrior, IHealCaster
     {
-        private readonly bool _hasCriticalChance;
-
-        public int PunchDamage { get; private set; }
-        public Cods(int health, int attackPower, int punchDamage)
-            : base("Cods", health, attackPower, WarriorType.Fighter)
+        public int HealingAmount { get; set; }
+        public Cods(int health, int attackPower, TeamType teamType, int healingAmount)
+            : base("Cods", health, attackPower, WarriorType.Magery, teamType)
         {
-            PunchDamage = punchDamage;
-            attackPower += punchDamage;
+            HealingAmount = healingAmount;
         }
-
 
         public override void Attack(Warrior target)
         {
-            var totalDamage = target.AttackPower + PunchDamage;
-
-            var dmginfo = new DamageInfo(AttackPower, "Sapak", _hasCriticalChance);
+            var dmginfo = new DamageInfo(AttackPower, "Haplos", HasCriticalChance, this);
             TakeDamage(dmginfo);
 
-            Console.WriteLine($"\t-> {Name}: Ano na Boi kapa! {target.Name}!");
-
-            Thread.Sleep(1000);
-            Console.WriteLine($"\t-> {target.Name}: Napinsala ako!");
+            Console.WriteLine($"->{Name}: Lasapin mo yung haplos ko {target.Name}!");
 
             Thread.Sleep(1000);
             if (target.IsAlive)
-                Console.WriteLine($"\t-> {target.Name}: Patay ka ngayon! {target.Name}");
-
+                Console.WriteLine($"->{target.Name}: Asar mama {Name}");
         }
 
+        public void HealTeamMates(List<Warrior> teamMates)
+        {
+            foreach (var warrior in teamMates)
+            {
+                if (warrior.IsAlive && warrior.TeamType == TeamType)
+                {
+                    Console.WriteLine($"->{Name}: Hala, haplosin ko na lang si {warrior.Name}!");
+                    warrior.ReceiveHealing(HealingAmount, this);
+                }
+                else
+                    Console.WriteLine($"->{Name}: Sayang, patay na si {warrior.Name}. " +
+                        $"Hindi ko na siya mahaplos.");
+            }
+        }
     }
 }
