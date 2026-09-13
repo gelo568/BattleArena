@@ -51,6 +51,14 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Warriors\Characters\Agoot.cs" />
+    <Compile Include="Warriors\Characters\eloit.cs" />
+    <Compile Include="Warriors\Characters\gelo.cs" />
+    <Compile Include="Warriors\Characters\jibai.cs" />
+    <Compile Include="Warriors\Characters\kairi.cs" />
+    <Compile Include="Warriors\Characters\luna.cs" />
+    <Compile Include="Warriors\Characters\Raymond.cs" />
+    <Compile Include="Warriors\Characters\sammer.cs" />
+    <Compile Include="Warriors\Characters\Thanos.cs" />
     <Compile Include="Warriors\Combat\IDamageInfo.cs" />
     <Compile Include="Warriors\Combat\TurnEntry.cs" />
     <Compile Include="Warriors\Enums\TeamType.cs" />

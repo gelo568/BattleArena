@@ -6,34 +6,34 @@ using System.Threading;
 
 namespace BattleArena.Warriors.Characters
 {
-    public class Kirk : Warrior, ISpellCaster
+    public class Thanos  : Warrior, IDefender
     {
-        public int Shield { get; private set; }
+        public int InfinityGauntlet { get; private set; }
 
-        public Kirk(int health, int attackPower, int speed, int shield, TeamType teamType)
-            : base("Kirk", health, attackPower, speed, WarriorType.Tank, teamType)
+        public Thanos(int health, int attackPower, int speed, int infinityGauntlet, TeamType teamType)
+            : base("Thanos  ", health, attackPower, speed, WarriorType.Tank, teamType)
         {
-            Shield = shield;
+            InfinityGauntlet = infinityGauntlet;
         }
 
         public override void Attack(Warrior target)
         {
-            var dmginfo = new DamageInfo(AttackPower, "Ngalngal", HasCriticalChance, this);
+            var dmginfo = new DamageInfo(AttackPower, "haplusin mo", HasCriticalChance, this);
             TakeDamage(dmginfo);
 
-            Console.WriteLine($"->{Name}: Lasapin mo yakap ko {target.Name}!");
+            Console.WriteLine($"->{Name}: dumogin moko {target.Name}!");
 
             Thread.Sleep(1000);
-            Console.WriteLine($"->{target.Name}: Hug me tight {Name}!");
+            Console.WriteLine($"->{target.Name}: yakap hanggang mag violet {Name}!");
 
             Thread.Sleep(1000);
             if (target.IsAlive)
-                Console.WriteLine($"->{target.Name}: Kulang pa sa hug bebe {Name}");
+                Console.WriteLine($"->{target.Name}: ugh {Name}");
         }
 
         protected override void TakeDamage(DamageInfo damage)
         {
-            var newActualDamage = damage.TotalAmountDamage - Shield;
+            var newActualDamage = damage.TotalAmountDamage - InfinityGauntlet;
 
             var blockChance = _random.Next(0, 100);
             var isBlocked = blockChance < 50;

@@ -6,34 +6,34 @@ using System.Threading;
 
 namespace BattleArena.Warriors.Characters
 {
-    public class Kirk : Warrior, ISpellCaster
+    public class kairi : Warrior, ISpellCaster
     {
-        public int Shield { get; private set; }
+        public int Shadow { get; private set; }
 
-        public Kirk(int health, int attackPower, int speed, int shield, TeamType teamType)
-            : base("Kirk", health, attackPower, speed, WarriorType.Tank, teamType)
+        public kairi(int health, int attackPower, int speed, int shadow, TeamType teamType)
+            : base("kairi", health, attackPower, speed, WarriorType.Assassin, teamType)
         {
-            Shield = shield;
+            Shadow = shadow;
         }
 
         public override void Attack(Warrior target)
         {
-            var dmginfo = new DamageInfo(AttackPower, "Ngalngal", HasCriticalChance, this);
+            var dmginfo = new DamageInfo(AttackPower, "shingshing", HasCriticalChance, this);
             TakeDamage(dmginfo);
 
-            Console.WriteLine($"->{Name}: Lasapin mo yakap ko {target.Name}!");
+            Console.WriteLine($"->{Name}: ulol {target.Name}!");
 
             Thread.Sleep(1000);
-            Console.WriteLine($"->{target.Name}: Hug me tight {Name}!");
+            Console.WriteLine($"->{target.Name}: kumar kumar {Name}!");
 
             Thread.Sleep(1000);
             if (target.IsAlive)
-                Console.WriteLine($"->{target.Name}: Kulang pa sa hug bebe {Name}");
+                Console.WriteLine($"->{target.Name}: wala kang takas boi {Name}");
         }
 
         protected override void TakeDamage(DamageInfo damage)
         {
-            var newActualDamage = damage.TotalAmountDamage - Shield;
+            var newActualDamage = damage.TotalAmountDamage - Shadow;
 
             var blockChance = _random.Next(0, 100);
             var isBlocked = blockChance < 50;
